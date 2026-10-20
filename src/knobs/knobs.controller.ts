@@ -7,8 +7,8 @@ import {
   HttpStatus,
   Param,
   ParseIntPipe,
-  Patch,
   Post,
+  Put,
 } from '@nestjs/common';
 import {
   ApiCreatedResponse,
@@ -54,7 +54,7 @@ export class KnobsController {
     return this.knobsService.findOne(id);
   }
 
-  @Patch(':id')
+  @Put(':id')
   @ApiOkResponse({
     description: 'Ручка успешно обновлена',
     type: Knob,
