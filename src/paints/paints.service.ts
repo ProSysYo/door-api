@@ -4,7 +4,7 @@ import { UpdatePaintDto } from './dto/update-paint.dto';
 import { DbService } from '../db/db.service';
 
 @Injectable()
-export class PaintService {
+export class PaintsService {
   constructor(private db: DbService) {}
 
   create(createPaintDto: CreatePaintDto) {
@@ -17,17 +17,23 @@ export class PaintService {
 
   async findOne(id: number) {
     const paint = await this.db.paint.findUnique({ where: { id } });
+
     if (!paint) {
       throw new NotFoundException(`Цвет покраски с id=${id} не найден`);
     }
+
     return paint;
   }
 
-  update(id: number, updatePaintDto: UpdatePaintDto) {
+  async update(id: number, updatePaintDto: UpdatePaintDto) {
+    await this.findOne(id);
+
     return this.db.paint.update({ where: { id }, data: updatePaintDto });
   }
 
-  remove(id: number) {
+  async remove(id: number) {
+    await this.findOne(id);
+
     return this.db.paint.delete({ where: { id } });
   }
 }

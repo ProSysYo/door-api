@@ -7,11 +7,13 @@ import {
   HttpStatus,
   Param,
   ParseIntPipe,
+  Patch,
   Post,
-  Put,
 } from '@nestjs/common';
 import {
+  ApiBadRequestResponse,
   ApiCreatedResponse,
+  ApiNoContentResponse,
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiTags,
@@ -20,6 +22,12 @@ import { KnobsService } from './knobs.service';
 import { CreateKnobDto } from './dto/create-knob.dto';
 import { UpdateKnobDto } from './dto/update-knob.dto';
 import { Knob } from './entities/knob.entity';
+import {
+  ApiDataListResponse,
+  ApiDataResponse,
+  ApiErrorResponse,
+  ApiValidationErrorResponse,
+} from '../common/swagger/api-envelope';
 
 @ApiTags('knobs')
 @Controller('knobs')
@@ -29,7 +37,11 @@ export class KnobsController {
   @Post()
   @ApiCreatedResponse({
     description: 'Ручка успешно создана',
-    type: Knob,
+    type: ApiDataResponse(Knob),
+  })
+  @ApiBadRequestResponse({
+    description: 'Ошибка валидации названия',
+    type: ApiValidationErrorResponse,
   })
   create(@Body() createKnobDto: CreateKnobDto) {
     return this.knobsService.create(createKnobDto);
@@ -38,7 +50,7 @@ export class KnobsController {
   @Get()
   @ApiOkResponse({
     description: 'Список всех ручек',
-    type: [Knob],
+    type: ApiDataListResponse(Knob),
   })
   findAll() {
     return this.knobsService.findAll();
@@ -47,19 +59,33 @@ export class KnobsController {
   @Get(':id')
   @ApiOkResponse({
     description: 'Информация о ручке',
-    type: Knob,
+    type: ApiDataResponse(Knob),
   })
-  @ApiNotFoundResponse({ description: 'Ручка не найдена' })
+  @ApiNotFoundResponse({
+    description: 'Ручка не найдена',
+    type: ApiErrorResponse,
+  })
+  @ApiBadRequestResponse({
+    description: 'id должен быть числом',
+    type: ApiErrorResponse,
+  })
   findOne(@Param('id', new ParseIntPipe()) id: number) {
     return this.knobsService.findOne(id);
   }
 
-  @Put(':id')
+  @Patch(':id')
   @ApiOkResponse({
     description: 'Ручка успешно обновлена',
-    type: Knob,
+    type: ApiDataResponse(Knob),
   })
-  @ApiNotFoundResponse({ description: 'Ручка не найдена' })
+  @ApiNotFoundResponse({
+    description: 'Ручка не найдена',
+    type: ApiErrorResponse,
+  })
+  @ApiBadRequestResponse({
+    description: 'id должен быть числом или ошибка валидации',
+    type: ApiValidationErrorResponse,
+  })
   update(
     @Param('id', new ParseIntPipe()) id: number,
     @Body() updateKnobDto: UpdateKnobDto,
@@ -69,10 +95,15 @@ export class KnobsController {
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  @ApiOkResponse({
-    description: 'Ручка успешно удалена',
+  @ApiNoContentResponse({ description: 'Ручка успешно удалена' })
+  @ApiNotFoundResponse({
+    description: 'Ручка не найдена',
+    type: ApiErrorResponse,
   })
-  @ApiNotFoundResponse({ description: 'Ручка не найдена' })
+  @ApiBadRequestResponse({
+    description: 'id должен быть числом',
+    type: ApiErrorResponse,
+  })
   remove(@Param('id', new ParseIntPipe()) id: number) {
     return this.knobsService.remove(id);
   }

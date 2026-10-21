@@ -19,7 +19,7 @@ export class KnobsService {
     const knob = await this.db.knob.findUnique({ where: { id } });
 
     if (!knob) {
-      throw new NotFoundException(`Knob #${id} not found`);
+      throw new NotFoundException(`Ручка с id=${id} не найдена`);
     }
 
     return knob;

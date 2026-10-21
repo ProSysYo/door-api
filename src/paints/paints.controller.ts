@@ -1,70 +1,112 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
+  Controller,
   Delete,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Param,
+  ParseIntPipe,
+  Patch,
+  Post,
 } from '@nestjs/common';
-import { PaintService } from './paints.service';
+import { PaintsService } from './paints.service';
 import { CreatePaintDto } from './dto/create-paint.dto';
 import { UpdatePaintDto } from './dto/update-paint.dto';
 import {
+  ApiBadRequestResponse,
   ApiCreatedResponse,
+  ApiNoContentResponse,
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiTags,
 } from '@nestjs/swagger';
 import { Paint } from './entities/paint.entity';
+import {
+  ApiDataListResponse,
+  ApiDataResponse,
+  ApiErrorResponse,
+  ApiValidationErrorResponse,
+} from '../common/swagger/api-envelope';
 
 @ApiTags('paints')
 @Controller('paints')
-export class PaintController {
-  constructor(private readonly paintService: PaintService) {}
+export class PaintsController {
+  constructor(private readonly paintsService: PaintsService) {}
 
   @Post()
   @ApiCreatedResponse({
-    description: 'Цвет покраски успешно создан ',
-    type: Paint,
+    description: 'Цвет покраски успешно создан',
+    type: ApiDataResponse(Paint),
+  })
+  @ApiBadRequestResponse({
+    description: 'Ошибка валидации названия',
+    type: ApiValidationErrorResponse,
   })
   create(@Body() createPaintDto: CreatePaintDto) {
-    return this.paintService.create(createPaintDto);
+    return this.paintsService.create(createPaintDto);
   }
 
   @Get()
   @ApiOkResponse({
     description: 'Список всех цветов покраски',
-    type: [Paint],
+    type: ApiDataListResponse(Paint),
   })
   findAll() {
-    return this.paintService.findAll();
+    return this.paintsService.findAll();
   }
 
   @Get(':id')
   @ApiOkResponse({
-    description: 'Информация о цвете поркаски',
-    type: Paint,
+    description: 'Информация о цвете покраски',
+    type: ApiDataResponse(Paint),
   })
-  findOne(@Param('id') id: string) {
-    return this.paintService.findOne(+id);
+  @ApiNotFoundResponse({
+    description: 'Цвет покраски не найден',
+    type: ApiErrorResponse,
+  })
+  @ApiBadRequestResponse({
+    description: 'id должен быть числом',
+    type: ApiErrorResponse,
+  })
+  // ParseIntPipe сам превращает строку из url в число и отдаёт 400,
+  // если id не число. Без него id='abc' стал бы NaN и Prisma упала бы с 500.
+  findOne(@Param('id', new ParseIntPipe()) id: number) {
+    return this.paintsService.findOne(id);
   }
 
   @Patch(':id')
   @ApiOkResponse({
-    description: 'Цвет покраски успешно обновлено',
-    type: Paint,
+    description: 'Цвет покраски успешно обновлён',
+    type: ApiDataResponse(Paint),
   })
-  update(@Param('id') id: string, @Body() updatePaintDto: UpdatePaintDto) {
-    return this.paintService.update(+id, updatePaintDto);
+  @ApiNotFoundResponse({
+    description: 'Цвет покраски не найден',
+    type: ApiErrorResponse,
+  })
+  @ApiBadRequestResponse({
+    description: 'id должен быть числом или ошибка валидации',
+    type: ApiValidationErrorResponse,
+  })
+  update(
+    @Param('id', new ParseIntPipe()) id: number,
+    @Body() updatePaintDto: UpdatePaintDto,
+  ) {
+    return this.paintsService.update(id, updatePaintDto);
   }
 
   @Delete(':id')
-  @ApiOkResponse({
-    description: 'Ручка успешно удалена',
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @ApiNoContentResponse({ description: 'Цвет покраски успешно удалён' })
+  @ApiNotFoundResponse({
+    description: 'Цвет покраски не найден',
+    type: ApiErrorResponse,
   })
-  @ApiNotFoundResponse({ description: 'Цвет покраски не найден' })
-  remove(@Param('id') id: string) {
-    return this.paintService.remove(+id);
+  @ApiBadRequestResponse({
+    description: 'id должен быть числом',
+    type: ApiErrorResponse,
+  })
+  remove(@Param('id', new ParseIntPipe()) id: number) {
+    return this.paintsService.remove(id);
   }
 }

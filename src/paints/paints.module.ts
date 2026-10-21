@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
-import { PaintService } from './paints.service';
-import { PaintController } from './paints.controller';
+import { PaintsService } from './paints.service';
+import { PaintsController } from './paints.controller';
 import { DbModule } from '../db/db.module';
 
 @Module({
   imports: [DbModule],
-  controllers: [PaintController],
-  providers: [PaintService],
+  controllers: [PaintsController],
+  providers: [PaintsService],
 })
-export class PaintModule {}
+export class PaintsModule {}

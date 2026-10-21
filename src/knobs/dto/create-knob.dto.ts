@@ -3,11 +3,11 @@ import { IsNotEmpty, IsString, MinLength } from 'class-validator';
 
 export class CreateKnobDto {
   @ApiProperty({
-    description: 'Имя ручки',
+    description: 'Название ручки',
     example: 'Основная ручка',
   })
   @IsString()
   @IsNotEmpty()
-  @MinLength(3, {message: 'Минимальная длина 3'})
+  @MinLength(3, { message: 'Минимальная длина 3 символа' })
   name: string;
 }
