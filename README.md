@@ -50,3 +50,10 @@ npx prisma db seed
 
 npx prisma migrate reset --force !!!УДАЛИТ ВСЕ ДАННЫЕ В БД!!! ОСТОРОЖНО!!! 
 ```
+
+## Nest Generate
+
+```bash
+nest g res NAME --no-spec
+
+```
