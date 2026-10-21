@@ -1,5 +1,3 @@
-// Должно быть первым импортом: .env должен быть прочитан до того,
-// как будут вычислены декораторы @Module (в них читается process.env).
 import 'dotenv/config';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
@@ -8,6 +6,7 @@ import cookieParser from 'cookie-parser';
 import { ResponseInterceptor } from './common/interceptors/response.interceptor';
 import { AllExceptionsFilter } from './common/filters/all-exceptions.filter';
 import { ValidationConfigPipe } from './common/pipes/validation-pipe';
+import { SWAGGER_CUSTOM_OPTIONS } from './common/swagger/swagger.config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -17,7 +16,7 @@ async function bootstrap() {
     .setVersion('1.0')
     .build();
   const documentFactory = () => SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, documentFactory);
+  SwaggerModule.setup('api', app, documentFactory, SWAGGER_CUSTOM_OPTIONS);
 
   app.use(cookieParser());
   app.enableCors({
@@ -25,7 +24,6 @@ async function bootstrap() {
     credentials: true,
   });
 
-  // Единый формат ответа: { data, error, errors }
   app.useGlobalInterceptors(new ResponseInterceptor());
   app.useGlobalFilters(new AllExceptionsFilter());
   app.useGlobalPipes(new ValidationConfigPipe());

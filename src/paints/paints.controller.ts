@@ -69,8 +69,6 @@ export class PaintsController {
     description: 'id должен быть числом',
     type: ApiErrorResponse,
   })
-  // ParseIntPipe сам превращает строку из url в число и отдаёт 400,
-  // если id не число. Без него id='abc' стал бы NaN и Prisma упала бы с 500.
   findOne(@Param('id', new ParseIntPipe()) id: number) {
     return this.paintsService.findOne(id);
   }

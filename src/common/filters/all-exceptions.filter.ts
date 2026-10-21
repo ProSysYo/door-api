@@ -48,21 +48,20 @@ export class AllExceptionsFilter implements ExceptionFilter {
       status = nestException.status;
       const res = nestException.response as any;
 
-      // 1. Наша exceptionFactory возвращает { errors: {...}, message: '...' }
       if (res && typeof res === 'object' && res.errors) {
         errors = res.errors;
         error = res.message ?? 'Валидация не пройдена';
       }
-      // 2. Стандартный ValidationPipe без кастомной фабрики
+    
       else if (Array.isArray(res?.message)) {
         errors = this.groupErrors(res.message);
         error = 'Валидация не пройдена';
       }
-      // 3. Стандартные NestJS-исключения: { message: '...', statusCode: 401 }
+      
       else if (typeof res?.message === 'string') {
         error = res.message;
       }
-      // 4. Объект без message — извлекаем полезные поля или сериализуем
+      
       else if (res && typeof res === 'object') {
         if (res.type && typeof res.type === 'string') {
           error = res.type;
@@ -72,7 +71,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
           error = JSON.stringify(res);
         }
       }
-      // 5. Fallback
+     
       else {
         error = String(res);
       }
