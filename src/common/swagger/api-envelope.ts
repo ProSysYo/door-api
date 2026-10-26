@@ -52,7 +52,7 @@ export class ApiErrorResponse {
   })
   data: null;
 
-  @ApiProperty({ type: String, example: 'Цвет покраски не найден' })
+  @ApiProperty({ type: String, example: 'Запись не найдена' })
   error: string;
 
   @ApiProperty({ ...ERRORS_SCHEMA, nullable: true, example: null })
