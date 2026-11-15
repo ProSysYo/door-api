@@ -5,8 +5,9 @@ import { AuthModule } from './auth/auth.module';
 import { KnobsModule } from './knobs/knobs.module';
 import { PaintsModule } from './paints/paints.module';
 import { PackagingsModule } from './packagings/packagings.module';
+import { FoilsModule } from './foils/foils.module';
 
 @Module({
-  imports: [DbModule, UsersModule, AuthModule, KnobsModule, PaintsModule, PackagingsModule],
+  imports: [DbModule, UsersModule, AuthModule, KnobsModule, PaintsModule, PackagingsModule, FoilsModule],
 })
 export class AppModule {}

@@ -40,3 +40,12 @@ model Packaging {
 
   @@map("packagings")
 }
+
+model Foil {
+  id Int @id @default(autoincrement())
+  name String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("foils")
+}
