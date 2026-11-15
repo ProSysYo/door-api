@@ -6,8 +6,36 @@ import { KnobsModule } from './knobs/knobs.module';
 import { PaintsModule } from './paints/paints.module';
 import { PackagingsModule } from './packagings/packagings.module';
 import { FoilsModule } from './foils/foils.module';
+import { EarsModule } from './ears/ears.module';
+import { BoltsModule } from './bolts/bolts.module';
+import { HingesModule } from './hinges/hinges.module';
+import { InsideFinishesModule } from './inside-finishes/inside-finishes.module';
+import { JambHolesModule } from './jamb-holes/jamb-holes.module';
+import { LocksModule } from './locks/locks.module';
+import { ModelsModule } from './models/models.module';
+import { OutsideFinishesModule } from './outside-finishes/outside-finishes.module';
+import { PadsModule } from './pads/pads.module';
+import { PeepholesModule } from './peepholes/peepholes.module';
 
 @Module({
-  imports: [DbModule, UsersModule, AuthModule, KnobsModule, PaintsModule, PackagingsModule, FoilsModule],
+  imports: [
+    DbModule,
+    UsersModule,
+    AuthModule,
+    KnobsModule,
+    PaintsModule,
+    PackagingsModule,
+    FoilsModule,
+    EarsModule,
+    BoltsModule,
+    HingesModule,
+    InsideFinishesModule,
+    JambHolesModule,
+    LocksModule,
+    ModelsModule,
+    OutsideFinishesModule,
+    PadsModule,
+    PeepholesModule,
+  ],
 })
 export class AppModule {}
