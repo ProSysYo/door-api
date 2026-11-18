@@ -139,3 +139,13 @@ model Peephole {
 
   @@map("peepholes")
 }
+
+model Customer {
+  id        Int      @id @default(autoincrement())
+  name      String
+  code      String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("customers")
+}

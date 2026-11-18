@@ -16,6 +16,7 @@ import { ModelsModule } from './models/models.module';
 import { OutsideFinishesModule } from './outside-finishes/outside-finishes.module';
 import { PadsModule } from './pads/pads.module';
 import { PeepholesModule } from './peepholes/peepholes.module';
+import { CustomersModule } from './customers/customers.module';
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import { PeepholesModule } from './peepholes/peepholes.module';
     OutsideFinishesModule,
     PadsModule,
     PeepholesModule,
+    CustomersModule,
   ],
 })
 export class AppModule {}
