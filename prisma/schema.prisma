@@ -149,3 +149,72 @@ model Customer {
 
   @@map("customers")
 }
+
+model Order {
+  id           Int      @id @default(autoincrement())
+
+  // Заказ
+  customerCode String   @map("customer_code")
+  orderDate    DateTime @db.Date @map("order_date")
+  doorsCount   Int      @map("doors_count")
+  note         String
+
+  // Конструктив
+  model               String @map("door_model")
+  frameModel          String @map("frame_model")
+  leafThickness       Int    @map("leaf_thickness")
+  height              Float
+  width               Float
+  leafWidth           Float? @map("leaf_width")
+  leafMetalThickness  Float  @map("leaf_metal_thickness")
+  frameMetalThickness Float  @map("frame_metal_thickness")
+  jambHole            String @map("jamb_hole")
+  ear                 String
+  hinge               String
+  hingeSide           String @map("hinge_side")
+  hingeCount3         Boolean @map("hinge_count_3")
+
+  // Замки и фурнитура
+  mainLock          String @map("main_lock")
+  mainPad           String @map("main_pad")
+  knob              String
+  bolt              String
+  mainLockCylinder  String @map("main_lock_cylinder")
+  extraLock         String @map("extra_lock")
+  extraPad          String @map("extra_pad")
+  extraLockCylinder String @map("extra_lock_cylinder")
+
+  // Покраска
+  paint String
+
+  // Отделка снаружи
+  outsideFinish String @map("outside_finish")
+  outsideFoil   String @map("outside_foil")
+
+  // Отделка внутри
+  insideFinish String @map("inside_finish")
+  insideFoil   String @map("inside_foil")
+
+  // Наличник
+  casingFoil String @map("casing_foil")
+
+  // Дополнительные элементы
+  streetDoor          Boolean @map("street_door")
+  eccentric           Boolean
+  backSheet           Boolean @map("back_sheet")
+  thermalCable        Boolean @map("thermal_cable")
+  closerReinforcement Boolean @map("closer_reinforcement")
+  closer              Boolean
+  electromagnet       Boolean
+  lighting            Boolean
+  soundproofing       Boolean
+
+  // Упаковка и стоимость
+  packaging String
+  price     Float
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("orders")
+}
