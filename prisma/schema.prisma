@@ -152,6 +152,7 @@ model Customer {
 
 model Order {
   id           Int      @id @default(autoincrement())
+  serialNumber String   @unique @map("serial_number")
 
   // Заказ
   customerCode String   @map("customer_code")

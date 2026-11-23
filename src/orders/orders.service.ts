@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { DbService } from '../db/db.service';
+import { generateSerialNumber } from './serial-number';
 
 @Injectable()
 export class OrdersService {
@@ -9,7 +10,7 @@ export class OrdersService {
 
   async create(createOrderDto: CreateOrderDto) {
     return this.db.order.create({
-      data: createOrderDto,
+      data: { ...createOrderDto, serialNumber: generateSerialNumber() },
     });
   }
 
