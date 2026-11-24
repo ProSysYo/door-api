@@ -13,6 +13,9 @@ export class Order {
   @ApiProperty({ example: '2026-11-22' })
   orderDate: Date;
 
+  @ApiProperty({ example: '2026-11-15', required: false, nullable: true })
+  shipmentDate: Date | null;
+
   @ApiProperty({ example: 2 })
   doorsCount: number;
 

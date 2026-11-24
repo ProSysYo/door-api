@@ -155,10 +155,11 @@ model Order {
   serialNumber String   @unique @map("serial_number")
 
   // Заказ
-  customerCode String   @map("customer_code")
-  orderDate    DateTime @db.Date @map("order_date")
-  doorsCount   Int      @map("doors_count")
-  note         String
+  customerCode  String   @map("customer_code")
+  orderDate     DateTime @db.Date @map("order_date")
+  shipmentDate  DateTime? @db.Date @map("shipment_date")
+  doorsCount    Int      @map("doors_count")
+  note          String
 
   // Конструктив
   model               String @map("door_model")
@@ -217,5 +218,6 @@ model Order {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
+  @@index([shipmentDate])
   @@map("orders")
 }

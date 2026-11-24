@@ -18,6 +18,7 @@ import { PadsModule } from './pads/pads.module';
 import { PeepholesModule } from './peepholes/peepholes.module';
 import { CustomersModule } from './customers/customers.module';
 import { OrdersModule } from './orders/orders.module';
+import { ShipmentPlansModule } from './shipments/shipment-plans.module';
 
 @Module({
   imports: [
@@ -40,6 +41,7 @@ import { OrdersModule } from './orders/orders.module';
     PeepholesModule,
     CustomersModule,
     OrdersModule,
+    ShipmentPlansModule,
   ],
 })
 export class AppModule {}

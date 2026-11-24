@@ -9,6 +9,7 @@ import {
   ParseIntPipe,
   HttpCode,
   HttpStatus,
+  Query,
 } from '@nestjs/common';
 import { OrdersService } from './orders.service';
 import { CreateOrderDto } from './dto/create-order.dto';
@@ -52,8 +53,8 @@ export class OrdersController {
     description: 'Список всех',
     type: ApiDataListResponse(Order),
   })
-  findAll() {
-    return this.ordersService.findAll();
+  findAll(@Query('shipmentDate') shipmentDate?: string) {
+    return this.ordersService.findAll(shipmentDate);
   }
 
   @Get(':id')

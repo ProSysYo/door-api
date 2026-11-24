@@ -35,6 +35,17 @@ export class CreateOrderDto {
   @IsDate({ message: 'Укажите дату оформления' })
   orderDate: Date;
 
+  @ApiProperty({
+    description: 'Дата отгрузки (необязательное поле)',
+    example: '2026-11-15',
+    required: false,
+    nullable: true,
+  })
+  @Transform(toDate)
+  @IsOptional()
+  @IsDate({ message: 'Дата отгрузки должна быть валидной датой' })
+  shipmentDate?: Date | null;
+
   @ApiProperty({ description: 'Количество дверей', example: 2 })
   @Transform(toNumber)
   @IsInt({ message: 'Минимум 1 дверь' })
